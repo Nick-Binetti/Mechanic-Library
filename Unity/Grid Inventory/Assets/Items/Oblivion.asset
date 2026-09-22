@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78ed766811a1eac4a94f210408650dc8, type: 3}
-  m_Name: Item
+  m_Name: Oblivion
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  img: {fileID: 0}
+  itemName: Oblivion
+  img: {fileID: -958001033126673685, guid: 7a0d2ba3745ecaf46bb6abb8946c5d6d, type: 3}
   width: 1
-  height: 1
+  height: 3
+  gridPos: {x: 0, y: 0}

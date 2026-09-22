@@ -1,14 +1,16 @@
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Grid
 {
     private int width;
     private int height;
     private float cellSize;
-    private Vector3 originPos;
+    private Vector2 originPos;
 
     //Underlying 2D array
-    private int[,] gridArray;
+    private Item[,] gridArray;
 
     //Constructor(no monobehavior makes this possible)
     public Grid(int width, int height, float cellSize, Vector3 originPos)
@@ -17,22 +19,22 @@ public class Grid
         this.height = height;
         this.cellSize = cellSize;
         this.originPos = originPos;
-        gridArray = new int[width,height];
+        gridArray = new Item[width,height];
 
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
                 Debug.Log(x + "," + y);
-                Debug.Log(GetWorldPosition(x, y));
-                //Create left and bottom lines for each cell
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.wheat, 100.0f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x+1, y), Color.wheat, 100.0f);
+                //Debug.Log(GetWorldPosition(x, y));
+                ////Create left and bottom lines for each cell
+                //Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.wheat, 100.0f);
+                //Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x+1, y), Color.wheat, 100.0f);
             }
         }
-        //Create lines to enclose the grid
-        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.wheat, 100.0f);
-        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.wheat, 100.0f);
+        ////Create lines to enclose the grid
+        //Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.wheat, 100.0f);
+        //Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.wheat, 100.0f);
 
     }
 
@@ -46,7 +48,7 @@ public class Grid
     /// <returns></returns>
     private Vector3 GetWorldPosition(int x, int y)
     {
-        return new Vector3(x, y, 0) * cellSize + originPos; 
+        return new Vector2(x, y) * cellSize + originPos; 
     }
 
     /// <summary>
@@ -60,24 +62,36 @@ public class Grid
         x = Mathf.FloorToInt((worldPos.x - originPos.x) /cellSize);
         y = Mathf.FloorToInt((worldPos.y -originPos.y)/ cellSize);
     }
-    public int GetValue(int x, int y)
+    /// <summary>
+    /// Gets item stored in single cell
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public Item GetItem(int x, int y)
     {
         if (x < 0 || y < 0 || x >= width || y >= height)
         {
-            return -1;
+            return null;
         }
 
         return gridArray[x, y];
     }
 
-    public void SetValue(int x, int y, int value)
+    /// <summary>
+    /// Sets item to store in single cell
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="item"></param>
+    public void SetItem(int x, int y, Item item)
     {
         if (x < 0 || y < 0 || x >= width || y >= height)
         {
             return;
         }
 
-        gridArray[x, y] = value;
+        gridArray[x, y] = item;
     }
     /// <summary>
     /// Checks the grid to see if the item is being placed
@@ -89,11 +103,11 @@ public class Grid
     /// <param name="itemWidth"> items width </param>
     /// <param name="itemHeight"> items height </param>
     /// <returns></returns>
-    public bool CanPlaceItem(int startX, int startY, int itemWidth, int itemHeight)
+    public bool CanPlaceItem(int startX, int startY, Item item)
     {
-        for (int x = 0; x < itemWidth; x++)
+        for (int x = 0; x < item.GetWidth(); x++)
         {
-            for (int y = 0; y < itemHeight; y++)
+            for (int y = 0; y < item.GetHeight(); y++)
             {
                 int gridX = startX + x;
                 int gridY = startY + y;
@@ -105,8 +119,8 @@ public class Grid
                     return false;
                 }
 
-                // Cell is already occupied
-                if (gridArray[gridX, gridY] != 0)
+                // Cell is already occupied by another item(not itself) 
+                else if (gridArray[gridX, gridY] != null && gridArray[gridX, gridY] != item)
                 {
                     return false;
                 }
@@ -124,29 +138,99 @@ public class Grid
     /// <param name="itemHeight"> items height </param>
     /// <param name="itemID"></param>
     /// <returns></returns>
-    public bool PlaceItem(
-    int startX,
-    int startY,
-    int itemWidth,
-    int itemHeight,
-    int itemID)
+    public Vector2 PlaceItem(int startX, int startY, Item item)
     {
-        if (!CanPlaceItem(startX, startY, itemWidth, itemHeight))
+        //Vector2 itemPos = Vector2.zero;
+
+        if (!CanPlaceItem(startX, startY, item))
+        {
+            return new Vector2(-1,-1);
+        }
+
+        else
+        {
+            for (int x = 0; x < item.GetWidth(); x++)
+            {
+                for (int y = 0; y < item.GetHeight(); y++)
+                {
+                   //place item
+                   gridArray[startX + x, startY + y] = item;
+                    //set item grid position to bottom left cell
+                   item.gridPos = new Vector2(startX, startY);
+                }
+            }
+            return item.gridPos;
+        }
+    }
+    /// <summary>
+    /// Checks for item to remove and removes it instances from the necessary cells
+    /// </summary>
+    /// <param name="item"></param>
+    public void RemoveItem(Item item)
+    {
+        int startX = (int)item.gridPos.x;
+        int startY = (int)item.gridPos.y;
+
+        for (int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                if (gridArray[x, y] == item)
+                {
+                    //reset occupied cells
+                    gridArray[x, y] = null;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Removes item from current position and places it in new one(after checking ofc)
+    /// </summary>
+    /// <param name="newX"></param>
+    /// <param name="newY"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool MoveItem(int newX, int newY, Item item)
+    {
+        if(!CanPlaceItem(newX, newY, item))
         {
             return false;
         }
-
-        for (int x = 0; x < itemWidth; x++)
+        else
         {
-            for (int y = 0; y < itemHeight; y++)
-            {
-                gridArray[startX + x, startY + y] = itemID;
-            }
-        }
+            RemoveItem(item);
 
-        return true;
+            PlaceItem(newX, newY, item);
+            return true;
+        }
     }
 
+    /// <summary>
+    /// Rotates item and checks if it still fits within grid
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool RotateItem(Item item)
+    {
+
+        item.Rotate();
+
+        //check if item still fits post rotation
+        if(CanPlaceItem((int)item.gridPos.x,(int)item.gridPos.y,item))
+        {
+            RemoveItem(item);
+            PlaceItem((int)item.gridPos.x, (int)item.gridPos.y, item);
+
+            return true;
+        }
+        else
+        {
+            //undo rotation
+            item.Rotate();
+            return false;
+        }
+    }
 }
 
 
