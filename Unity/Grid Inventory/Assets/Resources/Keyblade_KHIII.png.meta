@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f39da192b7b285a4ba666d68f9547623
+guid: e0a4a8e85f88d65419afdc1314187037
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5246357616288134531
-    second: Kingdom_Key_KHIII_0
+      213: 6331494433753500133
+    second: Keyblade_KHIII_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Kingdom_Key_KHIII_0
+      name: Keyblade_KHIII_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 615
-        height: 526
+        x: 251
+        y: 54
+        width: 282
+        height: 715
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 385f483a47ecec840800000000000000
-      internalID: 5246357616288134531
+      spriteID: 5e98d3d44acfdd750800000000000000
+      internalID: 6331494433753500133
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Kingdom_Key_KHIII_0: 5246357616288134531
+      Keyblade_KHIII_0: 6331494433753500133
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

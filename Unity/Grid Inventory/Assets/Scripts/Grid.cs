@@ -1,6 +1,4 @@
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Grid
 {

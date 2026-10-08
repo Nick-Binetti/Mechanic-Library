@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,7 +10,9 @@ public class ItemUI : MonoBehaviour,
     private Item item;
 
     private RectTransform rectTransform;
-    private Image image;
+
+    [SerializeField]
+    private Image itemImage;
 
     private Canvas canvas;
 
@@ -31,11 +32,10 @@ public class ItemUI : MonoBehaviour,
         this.inventoryGrid = inventoryGrid;
 
         rectTransform = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
 
         canvas = GetComponentInParent<Canvas>();
 
-        image.sprite = item.img;
+        itemImage.sprite = item.img;
 
         UpdateSize(cellSize);
         UpdatePosition(cellSize);
@@ -96,6 +96,7 @@ public class ItemUI : MonoBehaviour,
         eventData.pressEventCamera,
         out localMousePosition);
 
+    //item snapping to grid
     int gridX = Mathf.FloorToInt(
         localMousePosition.x / cellSize
     );
@@ -139,6 +140,9 @@ public class ItemUI : MonoBehaviour,
         item.Rotate();
 
         UpdateSize(cellSize);
+
+        //rotate along the z axis 
+        itemImage.transform.Rotate(0, 0, 90);
 
         Debug.Log(
             item.itemName +

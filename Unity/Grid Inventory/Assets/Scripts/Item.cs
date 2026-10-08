@@ -6,17 +6,13 @@ public class Item : ScriptableObject
     public string itemName;
     public Sprite img;
 
-    //reference to grid
-    [SerializeField]
-    Grid gridInventory;
-
     [Header("Grid Size")]
     public int width = 1;
     public int height = 1;
 
     public Vector2 gridPos;
 
-    private bool rotated;
+    public bool rotated;
 
     //Constructor
     public Item(string name, int width, int height, Sprite img = null)

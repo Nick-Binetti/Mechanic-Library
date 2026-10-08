@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class InventoryUI : MonoBehaviour
 
     [SerializeField] private Sprite keybladeSprite;
     [SerializeField] private Sprite oblivionSprite;
+    [SerializeField] private Sprite oathKeeperSprite;
+
 
     private Grid inventoryGrid;
 
@@ -22,14 +23,34 @@ public class InventoryUI : MonoBehaviour
 
         CreateGrid();
 
-        Item keyblade = new Item("Keyblade", 3, 3, keybladeSprite);
+        //eventually change out for instantiation of scriptable objects
+        //Item keyblade 
+        Item keyblade = ScriptableObject.CreateInstance<Item>();
+
+        keyblade.itemName = "Keyblade";
+        keyblade.width = 1;
+        keyblade.height = 3;
+        keyblade.img = keybladeSprite;
         keyblade.gridPos = new Vector2(1, 1);
 
-        Item oblivion = new Item("Oblivion", 1, 3, oblivionSprite);
+        Item oblivion = ScriptableObject.CreateInstance<Item>();
+        oblivion.itemName = "Oblivion";
+        oblivion.width = 1;
+        oblivion.height = 3;
+        oblivion.img = oblivionSprite;
         oblivion.gridPos = new Vector2(5, 1);
+
+        Item oathKeeper = ScriptableObject.CreateInstance<Item>();
+        oathKeeper.itemName = "Oathkeeper";
+        oathKeeper.width = 1;
+        oathKeeper.height = 3;
+        oathKeeper.img = oathKeeperSprite;
+        oathKeeper.gridPos = new Vector2(9, 1);
+
 
         CreateItemUI(keyblade);
         CreateItemUI(oblivion);
+        CreateItemUI(oathKeeper);
     }
 
     private void CreateGrid()
@@ -57,5 +78,7 @@ public class InventoryUI : MonoBehaviour
         ItemUI itemUI = itemObject.GetComponent<ItemUI>();
 
         itemUI.Setup(item, cellSize, inventoryGrid);
+
+        //play around with OnValidate to have items build themselves outside of runtime
     }
 }

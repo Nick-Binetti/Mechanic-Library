@@ -487,8 +487,8 @@ Canvas:
   m_GameObject: {fileID: 766092199}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -650,8 +650,9 @@ MonoBehaviour:
   cellSize: 80
   cellPrefab: {fileID: 7709140071047733437, guid: 9a7f46ad69d1d7e4c83d9d7cf68b73a9, type: 3}
   itemUIPrefab: {fileID: 1062942983192070995, guid: 91c28d9b9a3fa924cb3b84a4a66d2f40, type: 3}
-  keybladeSprite: {fileID: 5246357616288134531, guid: f39da192b7b285a4ba666d68f9547623, type: 3}
+  keybladeSprite: {fileID: 6331494433753500133, guid: e0a4a8e85f88d65419afdc1314187037, type: 3}
   oblivionSprite: {fileID: -958001033126673685, guid: 7a0d2ba3745ecaf46bb6abb8946c5d6d, type: 3}
+  oathKeeperSprite: {fileID: 1519513662674524399, guid: 523ce3cf0786f02439d247a99cc5054a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
