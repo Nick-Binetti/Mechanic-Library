@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dm07n0q53h46t"]
+
+[ext_resource type="Script" uid="uid://b7qetdl4xniir" path="res://swimming/water.gd" id="1_fi2pj"]
+
+[node name="ColorRect" type="ColorRect" unique_id=1842306212]
+offset_left = 139.0
+offset_top = 187.0
+offset_right = 179.0
+offset_bottom = 227.0
+scale = Vector2(12.166481, 4.7974)
+color = Color(0.43395546, 0.6108958, 0.999996, 0.47058824)
+script = ExtResource("1_fi2pj")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1511850282]
+collision_layer = 2
+collision_mask = 2
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_water_area_entered"]

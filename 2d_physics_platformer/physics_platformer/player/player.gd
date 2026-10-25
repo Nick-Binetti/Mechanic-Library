@@ -1,6 +1,8 @@
 class_name Player
 extends RigidBody2D
 
+enum CharState {Walking, Swimming}
+
 const WALK_ACCEL = 1000.0
 const WALK_DEACCEL = 1000.0
 const WALK_MAX_VELOCITY = 200.0
@@ -24,6 +26,10 @@ var floor_h_velocity: float = 0.0
 
 var airborne_time: float = 1e20
 var shoot_time: float = 1e20
+
+@export var water_block : ColorRect
+var midpoint: int = global_position.y
+
 
 @onready var sound_jump := $SoundJump as AudioStreamPlayer2D
 @onready var sound_shoot := $SoundShoot as AudioStreamPlayer2D
@@ -89,6 +95,10 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 		if stopping_jump:
 			velocity.y += STOP_JUMP_FORCE * step
+			
+	midpoint = global_position.y
+	print(midpoint)
+	
 
 	if on_floor:
 		# Process logic when character is on floor.
@@ -206,3 +216,8 @@ func _spawn_enemy_above() -> void:
 	var enemy := ENEMY_SCENE.instantiate() as RigidBody2D
 	enemy.position = position + 50 * Vector2.UP
 	get_parent().add_child(enemy)
+
+
+func _on_body_entered(body: Node) -> void:
+	if(body == water_block):
+		water_block._on_water_area_entered(water_block.area2D)

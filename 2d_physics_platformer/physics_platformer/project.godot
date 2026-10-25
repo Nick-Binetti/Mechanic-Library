@@ -95,6 +95,10 @@ spawn={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_2="Water"
+
 [physics]
 
 common/physics_ticks_per_second=120

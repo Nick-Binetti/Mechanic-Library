@@ -275,3 +275,5 @@ stream = ExtResource("8")
 
 [node name="SoundJump" type="AudioStreamPlayer2D" parent="." unique_id=137791510]
 stream = ExtResource("9")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
