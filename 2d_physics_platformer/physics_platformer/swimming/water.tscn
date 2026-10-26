@@ -2,17 +2,31 @@
 
 [ext_resource type="Script" uid="uid://b7qetdl4xniir" path="res://swimming/water.gd" id="1_fi2pj"]
 
-[node name="ColorRect" type="ColorRect" unique_id=1842306212]
-offset_left = 139.0
-offset_top = 187.0
-offset_right = 179.0
-offset_bottom = 227.0
-scale = Vector2(12.166481, 4.7974)
-color = Color(0.43395546, 0.6108958, 0.999996, 0.47058824)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qjkh3"]
+size = Vector2(40.115585, 39.964165)
+
+[node name="Node2D" type="Node2D" unique_id=296678360]
+scale = Vector2(0.95523834, 0.6399995)
 script = ExtResource("1_fi2pj")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1511850282]
+position = Vector2(139, 187)
+scale = Vector2(12.166481, 4.7974)
 collision_layer = 2
 collision_mask = 2
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_water_area_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1167322967]
+position = Vector2(20.746403, 21.81144)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_qjkh3")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1842306212]
+offset_left = 148.65399
+offset_top = 193.75015
+offset_right = 188.65399
+offset_bottom = 233.75015
+scale = Vector2(12.166481, 4.7974)
+color = Color(0.43395546, 0.6108958, 0.999996, 0.47058824)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
