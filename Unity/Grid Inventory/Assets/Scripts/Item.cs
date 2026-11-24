@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Underlying code for how item sizing and rotation works
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
 public class Item : ScriptableObject
 {

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//underlying code for making 2D array for grid 
 public class Grid
 {
     private int width;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//script that initializes each cell of the grid and the items to populate them
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private int width = 6;
@@ -45,7 +46,7 @@ public class InventoryUI : MonoBehaviour
         oathKeeper.width = 1;
         oathKeeper.height = 3;
         oathKeeper.img = oathKeeperSprite;
-        oathKeeper.gridPos = new Vector2(9, 1);
+        oathKeeper.gridPos = new Vector2(3, 1);
 
 
         CreateItemUI(keyblade);
